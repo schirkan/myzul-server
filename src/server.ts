@@ -7,6 +7,6 @@ const server = Server({
   origins: [Origins.LOCALHOST],
 });
 
-const publicDir = __dirname + '/public';
+const publicDir = __dirname + '/../public';
 server.app.use(serve(publicDir));
 server.run(8000, () => console.log('Server started'));

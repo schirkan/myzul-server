@@ -7,10 +7,11 @@
   "license": "MIT",
   "scripts": {
     "debug": "ts-node src/server.ts",
+    "build": "npm run build:server && npm run build:client && npm run copyfiles",
     "build:server": "tsc",
     "build:client": "npm --prefix ./client i && npm --prefix ./client run build",
     "copyfiles": "copyfiles -u 2 \"client/build/**/*\" \"dist/public\"",
-    "start": "node dist/server.js"
+    "start": "node dist/src/server.js"
   },
   "dependencies": {
     "copyfiles": "^2.4.1"
