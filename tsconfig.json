@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        // "emitDecoratorMetadata": true,
+        // "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ES6",
+        "inlineSources": true,
+        "inlineSourceMap": true,
+        "allowJs": true,
+        "moduleResolution": "Node",
+        "outDir": "./dist"
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
