@@ -42,11 +42,11 @@ jobs:
           npm install
           npm run build
           
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
-          path: .
+#       - name: Upload artifact for deployment job
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: myzul-server
+#           path: dist
 
       - name: 'Build and push image'
         uses: azure/docker-login@v1
