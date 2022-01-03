@@ -25,10 +25,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout repository and submodules
+      - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
