@@ -1,9 +1,7 @@
 import Router from '@koa/router';
-import { createConnection } from "../common/mongodb";
-import { UserScore, UserScoreRepository } from "../repository/userScore.repository";
-// import { Ctx } from "boardgame.io";
-// import { AzulGame } from './../../client/src/games/azul/Game';
-// import { AzulGameState, AzulGameover } from "../../client/src/games/azul/models";
+import { createConnection } from '../common/mongodb';
+import { UserScore, UserScoreRepository } from '../repository/userScore.repository';
+import { json } from 'co-body';
 
 let _repository: UserScoreRepository;
 
@@ -15,30 +13,6 @@ const getRepository = async () => {
   return _repository;
 }
 
-// export const registerUserScoreStore = () => {
-//   // const oldOnEnd = AzulGame.onEnd;
-//   const oldOnEnd = AzulGame.phases.placeTiles.onEnd;
-//   // AzulGame.onEnd = (G: AzulGameState, ctx: Ctx) => {
-//   AzulGame.phases.placeTiles.onEnd = (G: AzulGameState, ctx: Ctx) => {
-//     const newItems: UserScore[] = Object.keys(G.score).map(playerId => {
-//       const name = (ctx as any).matchData![+playerId].name || 'Spieler ' + (+playerId + 1);
-
-//       return {
-//         username: name,
-//         won: (ctx.gameover as AzulGameover).winnerPlayerId === playerId,
-//         points: G.score[playerId].points,
-//         duration: G.score[playerId].time
-//       };
-//     });
-
-//     // store result in db
-//     getRepository().then(repo => repo.insertMany(newItems));
-
-//     // call original event
-//     return oldOnEnd && oldOnEnd(G, ctx);
-//   };
-// }
-
 export const registerHighscoreApi = (server: { router: Router }) => {
   server.router.get('/api/highscore', async (ctx, next) => {
     const repository = await getRepository();
@@ -48,14 +22,19 @@ export const registerHighscoreApi = (server: { router: Router }) => {
   });
 
   server.router.post('/api/highscore', async (ctx, next) => {
+    console.log('save highscore')
+    const body = await json(ctx) as UserScore;
     const repository = await getRepository();
-    const body = ctx.request.toJSON();
     repository.insertOne(body);
+    console.log('save highscore OK', body)
+    ctx.body = 'OK';
+    ctx.response.status = 200;
   });
 }
 
 interface HighscoreItem {
   username: string;
+  games: number;
   won: number;
   points: number;
   duration: number;
@@ -67,14 +46,16 @@ const mapToHighscore = (scores: UserScore[]): HighscoreItem[] => {
     if (!result[x.username]) {
       result[x.username] = {
         username: x.username,
+        games: 0,
         duration: 0,
         points: 0,
         won: 0
       }
     }
+    result[x.username].games++;
     result[x.username].duration += x.duration;
     result[x.username].points += x.points;
     result[x.username].won += x.won ? 1 : 0;
   });
-  return Object.values(result);
+  return Object.values(result).sort((a, b) => b.points - a.points);
 }
