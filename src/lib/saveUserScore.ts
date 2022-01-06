@@ -22,11 +22,11 @@ export const registerHighscoreApi = (server: { router: Router }) => {
   });
 
   server.router.post('/api/highscore', async (ctx, next) => {
-    console.log('save highscore')
+    // console.log('save highscore')
     const body = await json(ctx) as UserScore;
     const repository = await getRepository();
     repository.insertOne(body);
-    console.log('save highscore OK', body)
+    // console.log('save highscore OK', body)
     ctx.body = 'OK';
     ctx.response.status = 200;
   });

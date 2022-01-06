@@ -1,6 +1,7 @@
 import { Collection, Db } from 'mongodb';
 
 export class UserScore {
+    matchId: string;
     username: string;
     won: boolean;
     points: number;
@@ -16,11 +17,16 @@ export class UserScoreRepository {
         return this.table.find().toArray();
     }
 
-    insertOne(data: UserScore): Promise<UserScore> {
-        return this.table.insertOne(data).then(() => data);
+    async insertOne(data: UserScore) {
+        const filter = {
+            username: data.username,
+            matchId: data.matchId
+        };
+        const options = { upsert: true };
+        this.table.updateOne(filter, data, options);
     }
 
-    insertMany(data: UserScore[]): Promise<UserScore[]> {
-        return this.table.insertMany(data).then(() => data);
+    insertMany(data: UserScore[]) {
+        return this.table.insertMany(data);
     }
 }
