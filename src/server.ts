@@ -11,6 +11,6 @@ const server = Server({
 });
 const publicDir = __dirname + '/../public';
 server.app.use(serve(publicDir));
-server.app.use(bodyParser());
+// server.app.use(bodyParser());
 registerHighscoreApi(server);
 server.run(8000, () => console.log('Server started ' + new Date()));

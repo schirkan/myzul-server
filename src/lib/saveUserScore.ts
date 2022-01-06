@@ -1,9 +1,9 @@
-import { Ctx } from "boardgame.io";
 import Router from '@koa/router';
 import { createConnection } from "../common/mongodb";
 import { UserScore, UserScoreRepository } from "../repository/userScore.repository";
-import { AzulGame } from './../../client/src/games/azul/Game';
-import { AzulGameState, AzulGameover } from "../../client/src/games/azul/models";
+// import { Ctx } from "boardgame.io";
+// import { AzulGame } from './../../client/src/games/azul/Game';
+// import { AzulGameState, AzulGameover } from "../../client/src/games/azul/models";
 
 let _repository: UserScoreRepository;
 
@@ -48,7 +48,9 @@ export const registerHighscoreApi = (server: { router: Router }) => {
   });
 
   server.router.post('/api/highscore', async (ctx, next) => {
-    await getRepository().then(repo => repo.insertOne((ctx.request as any).body));
+    const repository = await getRepository();
+    const body = ctx.request.toJSON();
+    repository.insertOne(body);
   });
 }
 
