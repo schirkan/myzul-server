@@ -23,7 +23,7 @@ export class UserScoreRepository {
             matchId: data.matchId
         };
         const options = { upsert: true };
-        this.table.updateOne(filter, data, options);
+        this.table.updateOne(filter, { $set: data }, options);
     }
 
     insertMany(data: UserScore[]) {
