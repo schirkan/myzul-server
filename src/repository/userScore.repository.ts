@@ -6,6 +6,7 @@ export class UserScore {
     won: boolean;
     points: number;
     duration: number;
+    timestamp: number;
 }
 
 export class UserScoreRepository {
@@ -23,10 +24,7 @@ export class UserScoreRepository {
             matchId: data.matchId
         };
         const options = { upsert: true };
+        data.timestamp = Date.now();
         this.table.updateOne(filter, { $set: data }, options);
-    }
-
-    insertMany(data: UserScore[]) {
-        return this.table.insertMany(data);
     }
 }
