@@ -21,10 +21,10 @@
     "mongodb": "^4.17.1"
   },
   "devDependencies": {
-    "@types/co-body": "^6.1.0",
-    "@types/node": "^20.5.7",
+    "@types/co-body": "^6.1.1",
+    "@types/node": "^20.8.6",
     "copyfiles": "^2.4.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   }
 }
